@@ -304,7 +304,7 @@ flutter build apk --release
 
 ## 📚 Documentation
 
-- 📖 [Complete Workflow](workflow.md) - Visual app flow diagrams
+- 📖 [Complete Workflow](https://github.com/examvijeta/exam-vijeta/blob/main/WORKFLOW.md) - Visual app flow diagrams
 - ✅ [Task Checklist](task.md) - Development progress
 - 🎯 [Feature Walkthrough](walkthrough.md) - Detailed features
 - 🚀 [Quick Start Guide](QUICKSTART.md) - Commands & troubleshooting
@@ -346,3 +346,4 @@ For issues or questions:
 **[⬆ Back to Top](#-mock-test-app)**
 
 </div>
+
