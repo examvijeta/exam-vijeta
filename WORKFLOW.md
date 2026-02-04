@@ -1,6 +1,6 @@
 # 🔄 App Workflow - Visual Flow Diagrams
 
-Complete n8n-style visual workflow showing how the app works from user signup to admin management.
+Complete visual workflow showing how the app works from user signup to admin management.
 
 ---
 
@@ -188,6 +188,79 @@ graph LR
 
 ---
 
+## 🤖 AI Agents Configuration
+
+### Google Gemini AI (Primary)
+
+```mermaid
+graph LR
+    User[User Requests Explanation] --> AIService[AIService]
+    AIService --> TryGemini{Try Gemini Keys}
+    
+    TryGemini -->|Key 1| Gemini1[Gemini API]
+    TryGemini -->|Key 2| Gemini2[Gemini API]
+    TryGemini -->|Key 3-10| GeminiN[Gemini API...]
+    
+    Gemini1 -->|Success| Return[Return Explanation]
+    Gemini1 -->|Fail| TryNext1[Try Next Key]
+    Gemini2 -->|Success| Return
+    Gemini2 -->|Fail| TryNext2[Try Next Key]
+    GeminiN -->|All Failed| Fallback[Fallback to HuggingFace]
+    
+    Fallback --> TryHF{Try HF Keys}
+    TryHF -->|Key 1-10| HuggingFace[HuggingFace API]
+    HuggingFace -->|Success| Return
+    HuggingFace -->|All Failed| Error[Return Error Message]
+```
+
+### AI Configuration Details
+
+**File Locations:**
+- **API Keys**: `lib/config/api_config.dart`
+- **Service**: `lib/services/ai_service.dart`
+
+**Gemini Configuration:**
+```dart
+// lib/config/api_config.dart
+static const List<String> _geminiKeysEnc = [
+  // 10 obfuscated Gemini API keys
+];
+
+// lib/services/ai_service.dart
+Future<String?> _generateWithGemini(String prompt, String apiKey) {
+  final model = GenerativeModel(
+    model: 'models/gemini-1.5-flash',
+    apiKey: apiKey,
+  );
+  // Generate explanation
+}
+```
+
+**Hugging Face Configuration:**
+```dart
+// lib/config/api_config.dart
+static const List<String> _hfKeysEnc = [
+  // 10 obfuscated Hugging Face API keys
+];
+
+// lib/services/ai_service.dart
+Future<String?> _generateWithHuggingFace(String prompt, String apiKey) {
+  const modelId = 'google/flan-t5-base';
+  const url = 'https://api-inference.huggingface.co/models/$modelId';
+  // API call with Bearer token
+}
+```
+
+**Key Features:**
+- ✅ 10 API keys per provider for redundancy
+- ✅ Automatic key rotation on failure
+- ✅ Obfuscated keys using `SecurityService`
+- ✅ Seamless fallback from Gemini to HuggingFace
+- ✅ Error handling with user-friendly messages
+
+
+---
+
 ## 🔄 Complete Data Sync Flow
 
 ```mermaid
@@ -332,4 +405,4 @@ graph TB
 
 ---
 
-This workflow document provides complete n8n-style visual flows with better color contrast for readability! 🚀
+This workflow document provides complete nvisual flows with better color contrast for readability! 🚀
