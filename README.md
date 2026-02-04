@@ -132,15 +132,43 @@
 
 ### 🤖 External Agents/APIs
 
-| Agent | Purpose | Integration |
-|-------|---------|-------------|
-| ![Firebase](https://img.shields.io/badge/Firebase-Auth-orange?style=flat-square) | User authentication | `AuthService` |
-| ![Firestore](https://img.shields.io/badge/Firestore-Metadata-yellow?style=flat-square) | Metadata storage | `DatabaseService` |
-| ![Supabase](https://img.shields.io/badge/Supabase-Stats-green?style=flat-square) | Stats & leaderboard | `SupabaseService` |
-| ![FCM](https://img.shields.io/badge/FCM-Notifications-red?style=flat-square) | Push notifications | `NotificationService` |
-| ![GitHub](https://img.shields.io/badge/GitHub-Images-black?style=flat-square) | Image hosting | `GithubImageService` |
-| ![Gemini](https://img.shields.io/badge/Gemini-AI_Primary-blue?style=flat-square) | AI explanations (Primary) | `api_config.dart` |
-| ![HuggingFace](https://img.shields.io/badge/HuggingFace-AI_Fallback-yellow?style=flat-square) | AI fallback (flan-t5) | `api_config.dart` |
+| Agent | Purpose | Integration | Configuration |
+|-------|---------|-------------|---------------|
+| ![Firebase](https://img.shields.io/badge/Firebase-Auth-orange?style=flat-square) | User authentication | `AuthService` | Firebase Console |
+| ![Firestore](https://img.shields.io/badge/Firestore-Metadata-yellow?style=flat-square) | Metadata storage | `DatabaseService` | Firebase Console |
+| ![Supabase](https://img.shields.io/badge/Supabase-Stats-green?style=flat-square) | Stats & leaderboard | `SupabaseService` | `api_config.dart` |
+| ![FCM](https://img.shields.io/badge/FCM-Notifications-red?style=flat-square) | Push notifications | `NotificationService` | Firebase Console |
+| ![GitHub](https://img.shields.io/badge/GitHub-Images-black?style=flat-square) | Image hosting | `GithubImageService` | `api_config.dart` |
+| ![Gemini](https://img.shields.io/badge/Gemini-AI_Primary-blue?style=flat-square) | AI explanations (Primary) | `AIService` | `api_config.dart` |
+| ![HuggingFace](https://img.shields.io/badge/HuggingFace-AI_Fallback-yellow?style=flat-square) | AI fallback (flan-t5) | `AIService` | `api_config.dart` |
+
+#### 🤖 AI Agents Details
+
+**Google Gemini AI (Primary)**
+- **Model**: `gemini-1.5-flash`
+- **Purpose**: Generate explanations for test questions
+- **Implementation**: `lib/services/ai_service.dart`
+- **Keys**: 10 obfuscated keys with rotation in `lib/config/api_config.dart`
+- **Fallback**: Automatic switch to Hugging Face on failure
+
+**Hugging Face (Fallback)**
+- **Model**: `google/flan-t5-base`
+- **Purpose**: Backup AI provider when Gemini fails
+- **Implementation**: `lib/services/ai_service.dart`
+- **Keys**: 10 obfuscated keys with rotation in `lib/config/api_config.dart`
+- **API**: `https://api-inference.huggingface.co`
+
+**AI Flow:**
+```
+User requests explanation
+  ↓
+Try Gemini Keys 1-10 (rotation)
+  ↓ (if all fail)
+Try HuggingFace Keys 1-10 (rotation)
+  ↓
+Return explanation or error message
+```
+
 
 ### 💻 Language Stack
 
@@ -158,7 +186,7 @@
 
 ---
 
-## � Project Structure
+## 📂 Project Structure
 
 <details>
 <summary>Click to expand file tree</summary>
@@ -190,8 +218,8 @@ mock_test_flutter/
 ├── 🎨 assets/                  # Images, Fonts, Avatars
 ├── 🤖 android/                 # Android config
 ├── 🪟 windows/                 # Windows config
-├── ️ supabase/                # Migrations
-└──  pubspec.yaml             # Dependencies
+├── 🗄️ supabase/                # Migrations
+└── 📦 pubspec.yaml             # Dependencies
 ```
 
 </details>
@@ -304,7 +332,7 @@ flutter build apk --release
 
 ## 📚 Documentation
 
-- 📖 [Complete Workflow](https://github.com/examvijeta/exam-vijeta/blob/main/WORKFLOW.md) - Visual app flow diagrams
+- 📖 [Complete Workflow](workflow.md) - Visual app flow diagrams
 - ✅ [Task Checklist](task.md) - Development progress
 - 🎯 [Feature Walkthrough](walkthrough.md) - Detailed features
 - 🚀 [Quick Start Guide](QUICKSTART.md) - Commands & troubleshooting
@@ -346,4 +374,3 @@ For issues or questions:
 **[⬆ Back to Top](#-mock-test-app)**
 
 </div>
-
